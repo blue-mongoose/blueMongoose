@@ -4,7 +4,6 @@ from flask import Flask, render_template, send_from_directory
 # Initilization
 app = Flask(__name__)
 
-
 # Controllers
 @app.route("/")
 def index():

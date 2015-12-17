@@ -18,6 +18,16 @@
     padding-left: 250px;
 }
 
+.card-body {
+    background-image: url("http://i.imgur.com/ZL787vq.jpg");
+    font-family: 'Ubuntu', sans-serif;
+    color: #1a1a1a;
+}
+
+#primary-view {
+    padding-bottom: 15px;
+}
+
 #sidebar-wrapper {
     z-index: 1000;
     position: fixed;
@@ -51,9 +61,10 @@
 /* Sidebar Styles */
 
 .sidebar-nav {
+    font-family: 'Ubuntu', sans-serif;
     position: absolute;
     top: 0;
-    width: 250px;
+    width: 100%;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -81,10 +92,25 @@
     text-decoration: none;
 }
 
+.sidebar-nav > .character-sheet {
+    height: 300px;
+    font-size: 18px;
+    line-height: 60px;
+}
+
+.sidebar-nav > .character-sheet a {
+    color: #999999;
+}
+
 .sidebar-nav > .sidebar-brand {
     height: 65px;
     font-size: 18px;
     line-height: 60px;
+}
+
+.sidebar-nav > .character-sheet a:hover {
+    color: #fff;
+    background: none;
 }
 
 .sidebar-nav > .sidebar-brand a {

@@ -90,7 +90,11 @@ def gen_dungeon():
     if len(developed) >= min:
         # boss_tile = choice(developed)
         boss_tile = max([(distance(start, x), x) for x in developed])[1]
+        developed.remove(boss_tile)
+        stair_tile = max([(distance(start, x), x) for x in developed])[1]
         dungeon[boss_tile[0]][boss_tile[1]] = "!"
+        dungeon[stair_tile[0]][stair_tile[1]] = "?"
+
         return dungeon
     else:
         return gen_dungeon()

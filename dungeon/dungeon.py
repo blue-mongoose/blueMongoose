@@ -1,39 +1,43 @@
 from random import randint, choice, random
+from time import sleep
 
 limit = 20
 tiles = 30
-# dungeon = [[" "] * limit for i in range(limit)]
-dungeon = []
-for i in range(limit):
-    tmp_list = []
-    for j in range(limit):
-        tmp_list.append(" ")
-    dungeon.append(tmp_list)
-
+min = 20
 
 directions = [lambda val: (val[0], val[1]+1),
               lambda val: (val[0], val[1]-1),
               lambda val: (val[0]+1, val[1]),
               lambda val: (val[0]-1, val[1])]
 
-deadend = .13
+deadend = .2
 hallway = .6
-threeway = .2
-fourway = .07
+threeway = .1
+fourway = .1
 
 def gen_dungeon():
-    # start = (randint(0, limit-1), randint(0, limit-1))
+    dungeon = []
+
+    for i in range(limit):
+        tmp_list = []
+        for j in range(limit):
+            tmp_list.append(" ")
+        dungeon.append(tmp_list)
     start = (10, 10)
     dungeon[start[0]][start[1]] = "@"
     undeveloped = []
-    for i in range(0, randint(2, 4)):
-        undeveloped.append(choice(directions)(start))
-    # undeveloped = [x(start) for x in directions]
+    developed = []
     blocked = []
+
+    for i in range(0, randint(2, 4)):
+        start_val = choice(directions)(start)
+        undeveloped.append(start_val)
+        dungeon[start_val[0]][start_val[1]] = "%"
+        blocked.append(start_val)
     tile_count = 0
-    while tile_count < tiles: # and len(undeveloped) > 0:
+    while tile_count < tiles and len(undeveloped) > 0:
+        # print_dungeon(dungeon)
         cur_tile = choice(undeveloped)
-        tile_code = choice(['#', '#'])
         passages = random()
         if passages < deadend:
             passage_num = 1
@@ -43,28 +47,51 @@ def gen_dungeon():
             passage_num = 3
         else:
             passage_num = 4
-        for i in range(0, passage_num + 1):
-            tile_gen = choice(directions)
-            new_tile = tile_gen(cur_tile)
-            A = new_tile[0] < limit and new_tile[1] < limit
-            B = new_tile[0] > 0 and new_tile[1] > 0
-            if A and B and dungeon[new_tile[0]][new_tile[1]] == " " and new_tile not in blocked:
-                undeveloped.append(new_tile)
+        cur_undeveloped = []
+        # print(passage_num)
+        # print(cur_tile)
+        # print("Developed: ", developed)
+        # print("Undeveloped: ", undeveloped)
+        # print("Blocked: ", blocked)
+        for i in range(0, passage_num):
+            for j in range(0, 5):
+                tile_gen = choice(directions)(cur_tile)
+                if tile_gen not in developed and tile_gen not in blocked and tile_gen not in cur_undeveloped:
+                    break
+            A = tile_gen[0] < limit and tile_gen[1] < limit
+            B = tile_gen[0] > 0 and tile_gen[1] > 0
+            if A and B and dungeon[tile_gen[0]][tile_gen[1]] == " " and tile_gen not in blocked:
+                undeveloped.append(tile_gen)
+                dungeon[tile_gen[0]][tile_gen[1]] = " "
+                cur_undeveloped.append(tile_gen)
         for i in [x(cur_tile) for x in directions]:
-            if i not in undeveloped:
+            A = i not in cur_undeveloped
+            B = i not in blocked
+            C = i[0] < limit and i[1] < limit
+            D = i[0] > 0 and i[1] > 0
+            if A and B and C and D and dungeon[i[0]][i[1]] not in ["#", "@"]:
                 blocked.append(i)
+                dungeon[i[0]][i[1]] = " "
                 try:
                     undeveloped.remove(i)
                 except ValueError:
                     pass
         undeveloped.remove(cur_tile)
-        dungeon[cur_tile[0]][cur_tile[1]] = tile_code
+        dungeon[cur_tile[0]][cur_tile[1]] = "#"
+        developed.append(cur_tile)
         tile_count += 1
+        # sleep(1)
+
+    # print(sorted(set(blocked)))
+    if len(developed) >= min:
+        return dungeon
+    else:
+        return gen_dungeon()
 
 
 def print_dungeon(dungeon):
     for i in dungeon:
         print(" ".join(map(str, i)))
 
-gen_dungeon()
-print_dungeon(dungeon)
+for i in range(1, 100):
+    print_dungeon(gen_dungeon())

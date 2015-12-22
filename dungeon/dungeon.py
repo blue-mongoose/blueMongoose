@@ -28,7 +28,7 @@ def gen_dungeon():
     undeveloped = []
     developed = []
     blocked = []
-
+    deadends = []
     for i in range(0, randint(2, 4)):
         start_val = choice(directions)(start)
         undeveloped.append(start_val)
@@ -41,6 +41,7 @@ def gen_dungeon():
         passages = random()
         if passages < deadend:
             passage_num = 1
+            deadends.append(cur_tile)
         elif passages < deadend + hallway:
             passage_num = 2
         elif passages < deadend + hallway + threeway:
@@ -82,12 +83,20 @@ def gen_dungeon():
         tile_count += 1
         # sleep(1)
 
+    # boss_tile = choice(deadends)
+    # dungeon[boss_tile[0]][boss_tile[1]] = "!"
+
     # print(sorted(set(blocked)))
     if len(developed) >= min:
+        # boss_tile = choice(developed)
+        boss_tile = max([(distance(start, x), x) for x in developed])[1]
+        dungeon[boss_tile[0]][boss_tile[1]] = "!"
         return dungeon
     else:
         return gen_dungeon()
 
+def distance(pointA, pointB):
+    return abs(pointA[0] - pointB[0]) + abs(pointA[1] - pointB[1])
 
 def print_dungeon(dungeon):
     for i in dungeon:

@@ -2,6 +2,8 @@ import os
 from flask import Flask, render_template, send_from_directory, jsonify
 from flask.ext.sqlalchemy import SQLAlchemy
 
+from dungeon import dungeon
+
 # Initilization
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
@@ -29,6 +31,14 @@ def index():
 @app.route("/api/test/", methods=['GET'])
 def test():
     return jsonify({"msg":"hello world"})
+
+@app.route("/api/dungeon/", methods=['GET'])
+def make_dungeon():
+    cur_events, cur_dungeon = dungeon.gen_dungeon()
+    return_val = {"dungeon": cur_dungeon}
+    for key, val in cur_events:
+        return_val[key] = val
+    return jsonify(return_val)
 
 # @app.route("/api/players/<username>", methods=['POST'])
 # def post_api_players(username):

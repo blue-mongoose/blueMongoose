@@ -148,7 +148,7 @@ def print_events(events):
     for i in events:
         print(i[0], ": ", i[1])
 
-for i in range(1, 100):
-    cur_events, dungeon = gen_dungeon()
-    print_dungeon(dungeon)
-    print_events(cur_events)
+# for i in range(1, 100):
+#     cur_events, dungeon = gen_dungeon()
+#     print_dungeon(dungeon)
+#     print_events(cur_events)

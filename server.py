@@ -9,6 +9,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 db = SQLAlchemy(app)
 
+# tables
 class players(db.Model):
     PID = db.Column(db.Integer, primary_key=True)
     NAME = db.Column(db.String(255))
@@ -20,6 +21,156 @@ class players(db.Model):
     def __repr__(self):
         return str('Name ' + self.NAME)
 
+class classes(db.Model):
+    Name = db.Column(db.String(255), primary_key=True)
+    Requirement = db.Column(db.String(255))
+    AttkBonus = db.Column(db.Integer)
+    SpeedBonus = db.Column(db.Integer)
+    HealthBonus = db.Column(db.Integer)
+    URLDescription = db.Column(db.String(255))
+    URLImage = db.Column(db.String(255))
+
+    def __init__(self, Name, Requirement, AttkBonus, SpeedBonus, HealthBonus, URLDescription, URLImage):
+        self.Name = Name
+        self.Requirement = Requirement
+        self.AttkBonus = AttkBonus
+        self.SpeedBonus = SpeedBonus
+        self.HealthBonus = HealthBonus
+        self.URLDescription = URLDescription
+        self.URLImage = URLImage
+
+class buildings(db.Model):
+    Name = db.Column(db.String(255), primary_key=True)
+    AttkBonus = db.Column(db.Integer)
+    SpeedBonus = db.Column(db.Integer)
+    HealthBonus = db.Column(db.Integer)
+    URLDescription = db.Column(db.String(255))
+    URLImage = db.Column(db.String(255))
+
+    def __init__(self, Name, Requirement, AttkBonus, SpeedBonus, HealthBonus, URLDescription, URLImage):
+        self.Name = Name
+        self.Requirement = Requirement
+        self.AttkBonus = AttkBonus
+        self.SpeedBonus = SpeedBonus
+        self.HealthBonus = HealthBonus
+        self.URLDescription = URLDescription
+        self.URLImage = URLImage
+
+class items(db.Model):
+    Name = db.Column(db.String(255), primary_key=True)
+    Requirement = db.Column(db.String(255))
+    AttkBonus = db.Column(db.Integer)
+    SpeedBonus = db.Column(db.Integer)
+    HealthBonus = db.Column(db.Integer)
+    URLDescription = db.Column(db.String(255))
+    URLImage = db.Column(db.String(255))
+
+    def __init__(self, Name, Requirement, AttkBonus, SpeedBonus, HealthBonus, URLDescription, URLImage):
+        self.Name = Name
+        self.Requirement = Requirement
+        self.AttkBonus = AttkBonus
+        self.SpeedBonus = SpeedBonus
+        self.HealthBonus = HealthBonus
+        self.URLDescription = URLDescription
+        self.URLImage = URLImage
+
+
+class enemies(db.Model):
+    Name = db.Column(db.String(255), primary_key=True)
+    Attk = db.Column(db.Integer)
+    Speed = db.Column(db.Integer)
+    Health = db.Column(db.Integer)
+    URLDescription = db.Column(db.String(255))
+    URLImage = db.Column(db.String(255))
+
+    def __init__(self, Name, Requirement, AttkBonus, SpeedBonus, HealthBonus, URLDescription, URLImage):
+        self.Name = Name
+        self.Attk = AttkBonus
+        self.Speed = SpeedBonus
+        self.Health = HealthBonus
+        self.URLDescription = URLDescription
+        self.URLImage = URLImage
+
+class moves(db.Model):
+    Name = db.Column(db.String(255), primary_key=True)
+    Attk = db.Column(db.Integer)
+    Speed = db.Column(db.Integer)
+    Health = db.Column(db.Integer)
+    URLDescription = db.Column(db.String(255))
+
+    def __init__(self, Name, Requirement, AttkBonus, SpeedBonus, HealthBonus, URLDescription, URLImage):
+        self.Name = Name
+        self.Attk = AttkBonus
+        self.Speed = SpeedBonus
+        self.Health = HealthBonus
+        self.URLDescription = URLDescription
+
+class bosses(db.Model):
+    Name = db.Column(db.String(255), primary_key=True)
+    Attk = db.Column(db.Integer)
+    Speed = db.Column(db.Integer)
+    Health = db.Column(db.Integer)
+    URLDescription = db.Column(db.String(255))
+    URLImage = db.Column(db.String(255))
+
+    def __init__(self, Name, Requirement, AttkBonus, SpeedBonus, HealthBonus, URLDescription, URLImage):
+        self.Name = Name
+        self.Attk = AttkBonus
+        self.Speed = SpeedBonus
+        self.Health = HealthBonus
+        self.URLDescription = URLDescription
+        self.URLImage = URLImage
+
+class equipment(db.Model):
+    Name = db.Column(db.String(255), primary_key=True)
+    Attk = db.Column(db.Integer)
+    Speed = db.Column(db.Integer)
+    Health = db.Column(db.Integer)
+    URLDescription = db.Column(db.String(255))
+    URLImage = db.Column(db.String(255))
+
+    def __init__(self, Name, Requirement, AttkBonus, SpeedBonus, HealthBonus, URLDescription, URLImage):
+        self.Name = Name
+        self.Attk = AttkBonus
+        self.Speed = SpeedBonus
+        self.Health = HealthBonus
+        self.URLDescription = URLDescription
+        self.URLImage = URLImage
+
+class dungeon(db.Model):
+    Name = db.Column(db.String(255), primary_key=True)
+    Attk = db.Column(db.Integer)
+    Speed = db.Column(db.Integer)
+    Health = db.Column(db.Integer)
+    URLDescription = db.Column(db.String(255))
+    URLImage = db.Column(db.String(255))
+
+    def __init__(self, Name, Requirement, AttkBonus, SpeedBonus, HealthBonus, URLDescription, URLImage):
+        self.Name = Name
+        self.Attk = AttkBonus
+        self.Speed = SpeedBonus
+        self.Health = HealthBonus
+        self.URLDescription = URLDescription
+        self.URLImage = URLImage
+
+# mapping tables
+
+class enemies_carry_items(db.Model):
+    Enemy = db.Column(db.String(255), primary_key=True)
+    Item = db.Column(db.String(255))
+
+    def __init__(self, Enemy, Item):
+        self.Enemy = Enemy
+        self.Item = Item
+
+
+# class dungeons_have_bosses(db.Model):
+#     Enemy = db.Column(db.String(255), primary_key=True)
+#     Item = db.Column(db.String(255))
+
+#     def __init__(self, Enemy, Item):
+#         self.Enemy = Enemy
+#         self.Item = Item
 # class characters(db.Model):
 #     CharID = db.Column(db.Integer,
 

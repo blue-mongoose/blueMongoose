@@ -29,6 +29,9 @@ def build_url(base_url, params):
     else:
         return url
 
+##########
+# Models #
+##########
 
 class players(db.Model):
     PID = db.Column(db.Integer, primary_key=True)
@@ -44,7 +47,12 @@ class players(db.Model):
 # class characters(db.Model):
 #     CharID = db.Column(db.Integer,
 
-# Controllers
+###############
+# Controllers #
+###############
+
+# Homepage
+
 @app.route("/")
 def index():
     return redirect(url_for('dashboard'))
@@ -57,6 +65,30 @@ def dashboard():
 def test():
     return jsonify({"msg":"hello world"})
 
+# Login
+
+@app.route('/authorize')
+def authorize():
+    response = request.path[1:].split('&')
+    response_params = {}
+    for kv in response.split('='):
+        response_params[kv[0]] = response_params[kv[1]]
+
+# INCOMPLETE -- Need to do second half of the handshake
+@app.route('/api/login', methods=['GET'])
+def api_login():
+    BASE_URL = 'https://github.com/login/oauth/authorize'
+    state = str(uuid.uuid4())
+    params = { 'client_id': GITHUB_CLIENT_ID
+             , 'redirect_uri': 'https://blue-mongoose.herokuapp.com/authorize'
+             , 'state': state
+             }
+    param_pairs = zip(params.keys(), params.values())
+    url = build_url(BASE_URL, [k + '=' + v for (k, v) in param_pairs])
+    return redirect(url)
+
+# Dungeon
+
 @app.route("/api/dungeon/", methods=['GET'])
 def make_dungeon():
     cur_events, cur_dungeon = dungeon.gen_dungeon()
@@ -64,6 +96,8 @@ def make_dungeon():
     for key, val in cur_events:
         return_val[key] = val
     return jsonify(return_val)
+
+# Players
 
 # @app.route("/api/players/<username>", methods=['POST'])
 # def post_api_players(username):
@@ -76,18 +110,6 @@ def api_players():
 # @app.route("/api/equipment/", methods=['GET'])
 # def equipment():
 #     return jsonify({"current_equipment":
-
-# INCOMPLETE -- Need to do second half of the handshake
-@app.route('/api/login', methods=['GET'])
-def api_login():
-    BASE_URL = 'https://github.com/login/oauth/authorize'
-    params = { 'client_id': GITHUB_CLIENT_ID
-             , 'redirect_uri': 'https://blue-mongoose.herokuapp.com/dashboard'
-             , 'state': str(uuid.uuid4())
-             }
-    param_pairs = zip(params.keys(), params.values())
-    url = build_url(BASE_URL, [k + '=' + v for (k, v) in param_pairs])
-    return redirect(url)
 
 
 # Launch to Heroku

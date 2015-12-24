@@ -1,6 +1,7 @@
 import os
-from flask import Flask, render_template, send_from_directory, jsonify
+from flask import Flask, render_template, send_from_directory, jsonify, redirect, url_for
 from flask.ext.sqlalchemy import SQLAlchemy
+import uuid
 
 from dungeon import dungeon
 
@@ -9,7 +10,33 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 db = SQLAlchemy(app)
 
+<<<<<<< HEAD
 # tables
+=======
+try:
+    GITHUB_CLIENT_ID = os.environ['BM_GITHUB_CLIENT_ID']
+except KeyError:
+    GITHUB_CLIENT_ID = os.environ['GITHUB_CLIENT_ID']
+
+def intersperse(iterable, delimiter):
+    it = iter(iterable)
+    yield next(it)
+    for x in it:
+        yield delimiter
+        yield x
+
+def build_url(base_url, params):
+    url = base_url + '?' + ''.join(list(intersperse(params, '&')))
+    if ' ' in url:
+        return url.replace(' ', '+')
+    else:
+        return url
+
+##########
+# Models #
+##########
+
+>>>>>>> c01fb5ce7d384e6ce2176791ca0cf025a1ed7139
 class players(db.Model):
     PID = db.Column(db.Integer, primary_key=True)
     NAME = db.Column(db.String(255))
@@ -174,14 +201,47 @@ class enemies_carry_items(db.Model):
 # class characters(db.Model):
 #     CharID = db.Column(db.Integer,
 
-# Controllers
+###############
+# Controllers #
+###############
+
+# Homepage
+
 @app.route("/")
 def index():
+    return redirect(url_for('dashboard'))
+
+@app.route('/dashboard')
+def dashboard():
     return render_template('index.html')
 
 @app.route("/api/test/", methods=['GET'])
 def test():
     return jsonify({"msg":"hello world"})
+
+# Login
+
+@app.route('/authorize')
+def authorize():
+    response = request.path[1:].split('&')
+    response_params = {}
+    for kv in response.split('='):
+        response_params[kv[0]] = response_params[kv[1]]
+
+# INCOMPLETE -- Need to do second half of the handshake
+@app.route('/api/login', methods=['GET'])
+def api_login():
+    BASE_URL = 'https://github.com/login/oauth/authorize'
+    state = str(uuid.uuid4())
+    params = { 'client_id': GITHUB_CLIENT_ID
+             , 'redirect_uri': 'https://blue-mongoose.herokuapp.com/authorize'
+             , 'state': state
+             }
+    param_pairs = zip(params.keys(), params.values())
+    url = build_url(BASE_URL, [k + '=' + v for (k, v) in param_pairs])
+    return redirect(url)
+
+# Dungeon
 
 @app.route("/api/dungeon/", methods=['GET'])
 def make_dungeon():
@@ -190,6 +250,8 @@ def make_dungeon():
     for key, val in cur_events:
         return_val[key] = val
     return jsonify(return_val)
+
+# Players
 
 # @app.route("/api/players/<username>", methods=['POST'])
 # def post_api_players(username):
@@ -202,6 +264,7 @@ def api_players():
 # @app.route("/api/equipment/", methods=['GET'])
 # def equipment():
 #     return jsonify({"current_equipment":
+
 
 # Launch to Heroku
 if __name__ == "__main__":

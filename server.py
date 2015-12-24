@@ -10,9 +10,6 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 db = SQLAlchemy(app)
 
-<<<<<<< HEAD
-# tables
-=======
 try:
     GITHUB_CLIENT_ID = os.environ['BM_GITHUB_CLIENT_ID']
 except KeyError:
@@ -36,7 +33,6 @@ def build_url(base_url, params):
 # Models #
 ##########
 
->>>>>>> c01fb5ce7d384e6ce2176791ca0cf025a1ed7139
 class players(db.Model):
     PID = db.Column(db.Integer, primary_key=True)
     NAME = db.Column(db.String(255))
@@ -228,7 +224,9 @@ def authorize():
     for kv in response.split('='):
         response_params[kv[0]] = response_params[kv[1]]
 
-# INCOMPLETE -- Need to do second half of the handshake
+"""
+INCOMPLETE -- Need to do second half of the handshake
+"""
 @app.route('/api/login', methods=['GET'])
 def api_login():
     BASE_URL = 'https://github.com/login/oauth/authorize'

@@ -217,7 +217,7 @@ def test():
 
 # Login
 
-@app.route('/authorize')
+@app.route('/api/authorize')
 def authorize():
     response = request.path[1:].split('&')
     response_params = {}

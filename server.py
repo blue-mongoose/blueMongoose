@@ -1,19 +1,39 @@
 import os
-from flask import Flask, render_template, send_from_directory, jsonify, redirect, url_for
+from flask import Flask, render_template, send_from_directory, jsonify, redirect, url_for, request
 from flask.ext.sqlalchemy import SQLAlchemy
 import uuid
 
 from dungeon import dungeon
 
 # Initilization
+APPLICATION_CONFIG = os.environ.get('BLUE_MONGOOSE_SETTINGS')
+
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+app.config['DEBUG'] = False
+app.config['TESTING'] = False
+
+if APPLICATION_CONFIG == 'production':
+    app.config['DATABASE_URI'] = os.environ['DATABASE_URL']
+    GITHUB_CLIENT_ID = os.environ['GITHUB_CLIENT_ID']
+    GITHUB_CLIENT_SECRET = os.environ['GITHUB_CLIENT_SECRET']
+elif APPLICATION_CONFIG == 'development':
+    app.config['DEBUG'] = True
+    app.config['DATABASE_URI'] = os.environ['BLUE_MONGOOSE_DATABASE_URL']
+    GITHUB_CLIENT_ID = os.environ['BLUE_MONGOOSE_GITHUB_CLIENT_ID']
+    GITHUB_CLIENT_SECRET = os.environ['BLUE_MONGOOSE_GITHUB_CLIENT_SECRET']
+elif APPLICATION_CONFIG == 'testing':
+    app.config['TESTING'] = True
+    app.config['DATABASE_URI'] = os.environ['BLUE_MONGOOSE_DATABASE_URL']
+    GITHUB_CLIENT_ID = os.environ['BLUE_MONGOOSE_GITHUB_CLIENT_ID']
+    GITHUB_CLIENT_SECRET = os.environ['BLUE_MONGOOSE_GITHUB_CLIENT_SECRET']
+else:
+    app.config['DEBUG'] = True
+    app.config['DATABASE_URI'] = os.environ['BLUE_MONGOOSE_DATABASE_URL']
+    GITHUB_CLIENT_ID = os.environ['BLUE_MONGOOSE_GITHUB_CLIENT_ID']
+    GITHUB_CLIENT_SECRET = os.environ['BLUE_MONGOOSE_GITHUB_CLIENT_SECRET']
+
 db = SQLAlchemy(app)
 
-try:
-    GITHUB_CLIENT_ID = os.environ['BM_GITHUB_CLIENT_ID']
-except KeyError:
-    GITHUB_CLIENT_ID = os.environ['GITHUB_CLIENT_ID']
 
 def intersperse(iterable, delimiter):
     it = iter(iterable)
@@ -28,6 +48,8 @@ def build_url(base_url, params):
         return url.replace(' ', '+')
     else:
         return url
+
+
 
 ##########
 # Models #
@@ -197,9 +219,15 @@ class enemies_carry_items(db.Model):
 # class characters(db.Model):
 #     CharID = db.Column(db.Integer,
 
+
+
 ###############
 # Controllers #
 ###############
+
+@app.route("/api/test/", methods=['GET'])
+def test():
+    return jsonify({"msg":"hello world"})
 
 # Homepage
 
@@ -207,20 +235,8 @@ class enemies_carry_items(db.Model):
 def index():
     return render_template('index.html')
 
-@app.route("/api/test/", methods=['GET'])
-def test():
-    return jsonify({"msg":"hello world"})
 
 # Login
-
-@app.route('/api/authorize')
-def authorize():
-    state = request.args.get('state', '')
-    code = request.args.get('code', '')
-    print(state)
-    print(code)
-    return redirect('/')
-
 
 """
 INCOMPLETE -- Need to do second half of the handshake
@@ -237,6 +253,15 @@ def api_login():
     url = build_url(BASE_URL, [k + '=' + v for (k, v) in param_pairs])
     return redirect(url)
 
+@app.route('/api/authorize', methods=['GET'])
+def authorize():
+    state = request.args.get('state', '')
+    code = request.args.get('code', '')
+    print(state)
+    print(code)
+    return redirect('/')
+
+
 # Dungeon
 
 @app.route("/api/dungeon/", methods=['GET'])
@@ -246,6 +271,7 @@ def make_dungeon():
     for key, val in cur_events:
         return_val[key] = val
     return jsonify(return_val)
+
 
 # Players
 
@@ -260,6 +286,7 @@ def api_players():
 # @app.route("/api/equipment/", methods=['GET'])
 # def equipment():
 #     return jsonify({"current_equipment":
+
 
 
 # Launch to Heroku

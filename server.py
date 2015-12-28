@@ -219,7 +219,7 @@ def authorize():
     code = request.args.get('code', '')
     print(state)
     print(code)
-    redirect('/')
+    return redirect('/')
 
 
 """
@@ -230,7 +230,7 @@ def api_login():
     BASE_URL = 'https://github.com/login/oauth/authorize'
     state = str(uuid.uuid4())
     params = { 'client_id': GITHUB_CLIENT_ID
-             , 'redirect_uri': 'https://blue-mongoose.herokuapp.com/authorize'
+             , 'redirect_uri': 'https://blue-mongoose.herokuapp.com/api/authorize'
              , 'state': state
              }
     param_pairs = zip(params.keys(), params.values())

@@ -223,6 +223,8 @@ def authorize():
     response_params = {}
     for kv in response.split('='):
         response_params[kv[0]] = response_params[kv[1]]
+    print(request.referrer)
+
 
 """
 INCOMPLETE -- Need to do second half of the handshake

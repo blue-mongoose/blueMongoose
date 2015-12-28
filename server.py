@@ -239,8 +239,17 @@ def index():
 # Login
 
 """
-INCOMPLETE -- Need to do second half of the handshake
+Flow is as follows:
+
+api/login -> Github -> api/authorize -> /
+
+- Need to generate a state UUID in api/login
+- Send to Github
+- Github should send it back
+- Need to verify in api/authorize that the state in the URL matches the state
+generated in api/login
 """
+
 @app.route('/api/login', methods=['GET'])
 def api_login():
     BASE_URL = 'https://github.com/login/oauth/authorize'

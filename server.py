@@ -205,10 +205,6 @@ class enemies_carry_items(db.Model):
 
 @app.route("/")
 def index():
-    return redirect(url_for('dashboard'))
-
-@app.route('/dashboard')
-def dashboard():
     return render_template('index.html')
 
 @app.route("/api/test/", methods=['GET'])
@@ -219,11 +215,11 @@ def test():
 
 @app.route('/api/authorize')
 def authorize():
-    response = request.path[1:].split('&')
-    response_params = {}
-    for kv in response.split('='):
-        response_params[kv[0]] = response_params[kv[1]]
-    print(request.referrer)
+    state = request.args.get('state', '')
+    code = request.args.get('code', '')
+    print(state)
+    print(code)
+    redirect('/')
 
 
 """

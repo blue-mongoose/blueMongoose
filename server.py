@@ -250,25 +250,25 @@ api/login -> Github -> api/authorize -> /
 generated in api/login
 """
 
-@app.route('/api/login', methods=['GET'])
-def api_login():
-    BASE_URL = 'https://github.com/login/oauth/authorize'
-    state = str(uuid.uuid4())
-    params = { 'client_id': GITHUB_CLIENT_ID
-             , 'redirect_uri': 'https://blue-mongoose.herokuapp.com/api/authorize'
-             , 'state': state
-             }
-    param_pairs = zip(params.keys(), params.values())
-    url = build_url(BASE_URL, [k + '=' + v for (k, v) in param_pairs])
-    return redirect(url)
+# @app.route('/api/login', methods=['GET'])
+# def api_login():
+#     BASE_URL = 'https://github.com/login/oauth/authorize'
+#     state = str(uuid.uuid4())
+#     params = { 'client_id': GITHUB_CLIENT_ID
+#              , 'redirect_uri': 'https://blue-mongoose.herokuapp.com/api/authorize'
+#              , 'state': state
+#              }
+#     param_pairs = zip(params.keys(), params.values())
+#     url = build_url(BASE_URL, [k + '=' + v for (k, v) in param_pairs])
+#     return redirect(url)
 
-@app.route('/api/authorize', methods=['GET'])
-def authorize():
-    state = request.args.get('state', '')
-    code = request.args.get('code', '')
-    print(state)
-    print(code)
-    return redirect('/')
+# @app.route('/api/authorize', methods=['GET'])
+# def authorize():
+#     state = request.args.get('state', '')
+#     code = request.args.get('code', '')
+#     print(state)
+#     print(code)
+#     return redirect('/')
 
 
 # Dungeon

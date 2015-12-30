@@ -129,7 +129,8 @@ def make_dungeon():
 @app.route("/api/cards/", methods=['GET'])
 def card():
     name = request.args.get("name")
-    print(name)
+    if name == None:
+        return jsonify(cards.all_cards())
     try:
         return jsonify(cards.all_cards()[name.lower()])
     except KeyError:
@@ -138,6 +139,8 @@ def card():
 @app.route("/api/cards/<card_type>/", methods=['GET'])
 def card_types(card_type):
     name = request.args.get("name")
+    if name == None:
+        return jsonify(eval("cards." + card_type)())
     try:
         return jsonify(eval("cards." + card_type)()[name.lower()])
     except (KeyError, AttributeError):

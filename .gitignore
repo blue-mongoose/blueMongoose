@@ -1,4 +1,9 @@
-ass
+###################
+# Compiled source #
+###################
+*.com
+*.class
+>>>>>>> 2224110740a00cc6d6fcfb00671049dcea47bc1c
 *.dll
 *.exe
 *.o

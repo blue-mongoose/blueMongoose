@@ -1,0 +1,14 @@
+name
+description
+image
+dungeon
+stats
+    - health
+    - stamina
+    - int
+    - str
+    - dex
+abilities
+items
+equipment
+

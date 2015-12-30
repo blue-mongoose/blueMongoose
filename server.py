@@ -1,8 +1,9 @@
 import os
-from flask import Flask, render_template, send_from_directory, jsonify
+from flask import Flask, render_template, send_from_directory, jsonify, request, abort
 from flask.ext.sqlalchemy import SQLAlchemy
 
 from dungeon import dungeon
+from cards import cards
 
 # Initilization
 app = Flask(__name__)
@@ -21,159 +22,6 @@ class players(db.Model):
     def __repr__(self):
         return str('Name ' + self.NAME)
 
-class classes(db.Model):
-    Name = db.Column(db.String(255), primary_key=True)
-    Requirement = db.Column(db.String(255))
-    AttkBonus = db.Column(db.Integer)
-    SpeedBonus = db.Column(db.Integer)
-    HealthBonus = db.Column(db.Integer)
-    URLDescription = db.Column(db.String(255))
-    URLImage = db.Column(db.String(255))
-
-    def __init__(self, Name, Requirement, AttkBonus, SpeedBonus, HealthBonus, URLDescription, URLImage):
-        self.Name = Name
-        self.Requirement = Requirement
-        self.AttkBonus = AttkBonus
-        self.SpeedBonus = SpeedBonus
-        self.HealthBonus = HealthBonus
-        self.URLDescription = URLDescription
-        self.URLImage = URLImage
-
-class buildings(db.Model):
-    Name = db.Column(db.String(255), primary_key=True)
-    AttkBonus = db.Column(db.Integer)
-    SpeedBonus = db.Column(db.Integer)
-    HealthBonus = db.Column(db.Integer)
-    URLDescription = db.Column(db.String(255))
-    URLImage = db.Column(db.String(255))
-
-    def __init__(self, Name, Requirement, AttkBonus, SpeedBonus, HealthBonus, URLDescription, URLImage):
-        self.Name = Name
-        self.Requirement = Requirement
-        self.AttkBonus = AttkBonus
-        self.SpeedBonus = SpeedBonus
-        self.HealthBonus = HealthBonus
-        self.URLDescription = URLDescription
-        self.URLImage = URLImage
-
-class items(db.Model):
-    Name = db.Column(db.String(255), primary_key=True)
-    Requirement = db.Column(db.String(255))
-    AttkBonus = db.Column(db.Integer)
-    SpeedBonus = db.Column(db.Integer)
-    HealthBonus = db.Column(db.Integer)
-    URLDescription = db.Column(db.String(255))
-    URLImage = db.Column(db.String(255))
-
-    def __init__(self, Name, Requirement, AttkBonus, SpeedBonus, HealthBonus, URLDescription, URLImage):
-        self.Name = Name
-        self.Requirement = Requirement
-        self.AttkBonus = AttkBonus
-        self.SpeedBonus = SpeedBonus
-        self.HealthBonus = HealthBonus
-        self.URLDescription = URLDescription
-        self.URLImage = URLImage
-
-
-class enemies(db.Model):
-    Name = db.Column(db.String(255), primary_key=True)
-    Attk = db.Column(db.Integer)
-    Speed = db.Column(db.Integer)
-    Health = db.Column(db.Integer)
-    URLDescription = db.Column(db.String(255))
-    URLImage = db.Column(db.String(255))
-
-    def __init__(self, Name, Requirement, AttkBonus, SpeedBonus, HealthBonus, URLDescription, URLImage):
-        self.Name = Name
-        self.Attk = AttkBonus
-        self.Speed = SpeedBonus
-        self.Health = HealthBonus
-        self.URLDescription = URLDescription
-        self.URLImage = URLImage
-
-class moves(db.Model):
-    Name = db.Column(db.String(255), primary_key=True)
-    Attk = db.Column(db.Integer)
-    Speed = db.Column(db.Integer)
-    Health = db.Column(db.Integer)
-    URLDescription = db.Column(db.String(255))
-
-    def __init__(self, Name, Requirement, AttkBonus, SpeedBonus, HealthBonus, URLDescription, URLImage):
-        self.Name = Name
-        self.Attk = AttkBonus
-        self.Speed = SpeedBonus
-        self.Health = HealthBonus
-        self.URLDescription = URLDescription
-
-class bosses(db.Model):
-    Name = db.Column(db.String(255), primary_key=True)
-    Attk = db.Column(db.Integer)
-    Speed = db.Column(db.Integer)
-    Health = db.Column(db.Integer)
-    URLDescription = db.Column(db.String(255))
-    URLImage = db.Column(db.String(255))
-
-    def __init__(self, Name, Requirement, AttkBonus, SpeedBonus, HealthBonus, URLDescription, URLImage):
-        self.Name = Name
-        self.Attk = AttkBonus
-        self.Speed = SpeedBonus
-        self.Health = HealthBonus
-        self.URLDescription = URLDescription
-        self.URLImage = URLImage
-
-class equipment(db.Model):
-    Name = db.Column(db.String(255), primary_key=True)
-    Attk = db.Column(db.Integer)
-    Speed = db.Column(db.Integer)
-    Health = db.Column(db.Integer)
-    URLDescription = db.Column(db.String(255))
-    URLImage = db.Column(db.String(255))
-
-    def __init__(self, Name, Requirement, AttkBonus, SpeedBonus, HealthBonus, URLDescription, URLImage):
-        self.Name = Name
-        self.Attk = AttkBonus
-        self.Speed = SpeedBonus
-        self.Health = HealthBonus
-        self.URLDescription = URLDescription
-        self.URLImage = URLImage
-
-class dungeon(db.Model):
-    Name = db.Column(db.String(255), primary_key=True)
-    Attk = db.Column(db.Integer)
-    Speed = db.Column(db.Integer)
-    Health = db.Column(db.Integer)
-    URLDescription = db.Column(db.String(255))
-    URLImage = db.Column(db.String(255))
-
-    def __init__(self, Name, Requirement, AttkBonus, SpeedBonus, HealthBonus, URLDescription, URLImage):
-        self.Name = Name
-        self.Attk = AttkBonus
-        self.Speed = SpeedBonus
-        self.Health = HealthBonus
-        self.URLDescription = URLDescription
-        self.URLImage = URLImage
-
-# mapping tables
-
-class enemies_carry_items(db.Model):
-    Enemy = db.Column(db.String(255), primary_key=True)
-    Item = db.Column(db.String(255))
-
-    def __init__(self, Enemy, Item):
-        self.Enemy = Enemy
-        self.Item = Item
-
-
-# class dungeons_have_bosses(db.Model):
-#     Enemy = db.Column(db.String(255), primary_key=True)
-#     Item = db.Column(db.String(255))
-
-#     def __init__(self, Enemy, Item):
-#         self.Enemy = Enemy
-#         self.Item = Item
-# class characters(db.Model):
-#     CharID = db.Column(db.Integer,
-
 # Controllers
 @app.route("/")
 def index():
@@ -181,15 +29,44 @@ def index():
 
 @app.route("/api/test/", methods=['GET'])
 def test():
-    return jsonify({"msg":"hello world"})
+    all_args = request.args.lists()
+    return jsonify(all_args)
 
 @app.route("/api/dungeon/", methods=['GET'])
 def make_dungeon():
-    cur_events, cur_dungeon = dungeon.gen_dungeon()
+    terrain = request.args.get("terrain")[0]
+    difficulty = int(request.args.get("difficulty")[0])
+    cur_events, cur_dungeon = dungeon.gen_dungeon(terrain, difficulty)
     return_val = {"dungeon": cur_dungeon}
     for key, val in cur_events:
         return_val[key] = val
     return jsonify(return_val)
+
+@app.route("/api/cards/", methods=['GET'])
+def card():
+    name = request.args.get("name")
+    print(name)
+    try:
+        return jsonify(cards.all_cards()[name.lower()])
+    except KeyError:
+        abort(400)
+
+@app.route("/api/cards/<card_type>/", methods=['GET'])
+def card_types(card_type):
+    name = request.args.get("name")
+    try:
+        return jsonify(eval("cards." + card_type)()[name.lower()])
+    except (KeyError, AttributeError):
+        abort(400)
+
+# @app.route("/api/cards/enemies/", methods=['GET'])
+# def enemies_cards():
+#     name = request.args.get("name")
+#     print(name)
+#     try:
+#         return jsonify(cards.enemies()[name.lower()])
+#     except KeyError:
+#         abort(400)
 
 # @app.route("/api/players/<username>", methods=['POST'])
 # def post_api_players(username):

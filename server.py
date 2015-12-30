@@ -67,11 +67,6 @@ class players(db.Model):
     def __repr__(self):
         return str('Name ' + self.NAME)
 
-# Controllers
-@app.route("/")
-def index():
-    return render_template('index.html')
-
 @app.route("/api/test/", methods=['GET'])
 def test():
     all_args = request.args.lists()

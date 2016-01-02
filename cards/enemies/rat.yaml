@@ -1,0 +1,28 @@
+Name: Rat
+Description: This 4 legged beast is at most a foot in length. The fearsomeness comes not from its size- it comes from its numbers. 
+Image: ratimg.jpeg
+Stats: 
+    health: 4
+    stamina: 10
+    int: 2
+    str: 3
+    dex: 5
+
+Abilities: 
+    gnaw: 
+        description: this fanged attack bites at the legs of its foes 
+        dmg: 2
+        stamina: 2
+
+    growl: 
+        description: "A growling rat isn't very frightening, but can give breathing room"
+        stmdmg: 2
+        stamina: 2
+
+Items: 
+    - fang
+    - fur
+    - poultice
+
+Equipment: []
+

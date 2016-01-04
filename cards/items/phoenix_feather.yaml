@@ -1,0 +1,7 @@
+Name: Phoenix Feather
+Description: This item restores another player to life.
+Image: img.jpeg
+Effect:
+    Health: 50%
+    Target: others
+

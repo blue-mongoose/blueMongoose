@@ -74,9 +74,21 @@ def test():
 
 # Homepage
 
+class my_card():
+    def __init__(self, name, description):
+        self.name = name
+        self.description = description
+
+# cur_cards = [my_card("red potion", "heals 4 health"),
+#         my_card("red potion", "heals 4 health"),
+#         my_card("red potion", "heals 4 health")]
+
 @app.route("/")
 def index():
-    return render_template('index.html')
+    print(cards.items())
+    return render_template('index.html',
+                            name="Leia Organa",
+                            cards= cards.items())
 
 
 # Login

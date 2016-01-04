@@ -1,0 +1,5 @@
+Name: Blue Potion
+Description: This swirling blue potion gives the user extra intelligence.
+Image: img.jpeg
+Effect: 
+    Int: 3

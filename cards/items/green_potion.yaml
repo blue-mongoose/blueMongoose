@@ -1,0 +1,6 @@
+Name: Green Potion
+Description: This swirling green potion restores its users stamina.
+Image: img.jpeg
+Effect: 
+    stamina: 5
+

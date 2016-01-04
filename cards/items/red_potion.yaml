@@ -1,0 +1,6 @@
+Name: Red Potion
+Description: This swirling red potion heals its user.
+Image: img.jpeg
+Effect: 
+    health: 5
+

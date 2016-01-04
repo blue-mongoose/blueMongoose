@@ -11,7 +11,8 @@ from cards import cards
 # Initilization
 APPLICATION_CONFIG = os.environ.get('BLUE_MONGOOSE_SETTINGS')
 
-BASE_URL = "http://localhost:5000/"
+# BASE_URL = "http://localhost:5000/"
+BASE_URL = "https://blue-mongoose.herokuapp.com/"
 
 app = Flask(__name__)
 app.config['DEBUG'] = False

@@ -55,9 +55,8 @@
 
           <div class="inner cover"> 
     </script>
-              <input type="game" id="inputGame" class="form-control" placeholder="Game Code" required>
-              <button id="joinGame" type='button' class="btn btn-lg btn-default">Join Game</button>
-              <button id="hostGame" type='button' class="btn btn-lg btn-default">Host Game</button>
+              <input type="game" id="inputCharacter" class="form-control" placeholder="Character Name" required>
+              <button id="character" type='button' class="btn btn-lg btn-default">Login</button>
           </div>
 
         </div>
@@ -78,12 +77,9 @@
 
     <!-- Custom Javascript -->
     <script>
-        $('#joinGame').on('click', function() {
-            var urlPath = document.getElementById('inputGame').value;
+        $('#character').on('click', function() {
+            var urlPath = document.getElementById('inputCharacter').value;
             window.location.href = urlPath;
-        })
-        $('#hostGame').on('click', function() {
-            window.location.href = "/api/host";
         })
     </script>
 

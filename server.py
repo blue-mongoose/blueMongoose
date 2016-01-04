@@ -3,11 +3,15 @@ from flask import Flask, render_template, send_from_directory, jsonify, redirect
 from flask.ext.sqlalchemy import SQLAlchemy
 import uuid
 
+import random, string
+
 from dungeon import dungeon
 from cards import cards
 
 # Initilization
 APPLICATION_CONFIG = os.environ.get('BLUE_MONGOOSE_SETTINGS')
+
+BASE_URL = "http://localhost:5000/"
 
 app = Flask(__name__)
 app.config['DEBUG'] = False
@@ -35,7 +39,6 @@ else:
 
 db = SQLAlchemy(app)
 
-
 def intersperse(iterable, delimiter):
     it = iter(iterable)
     yield next(it)
@@ -49,8 +52,6 @@ def build_url(base_url, params):
         return url.replace(' ', '+')
     else:
         return url
-
-
 
 ##########
 # Models #
@@ -74,57 +75,32 @@ def test():
 
 # Homepage
 
-class my_card():
-    def __init__(self, name, description):
-        self.name = name
-        self.description = description
-
-# cur_cards = [my_card("red potion", "heals 4 health"),
-#         my_card("red potion", "heals 4 health"),
-#         my_card("red potion", "heals 4 health")]
-
 @app.route("/")
 def index():
-    print(cards.items())
+    return render_template('cover.html')
+
+game_dict = {}
+
+@app.route("/api/host/")
+def new_game():
+    cur_keys = game_dict.keys()
+    new_game_id = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(5))
+    while(new_game_id in cur_keys):
+        new_game_id = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(5))
+    game_dict[new_game_id] = []
+    return redirect(BASE_URL + new_game_id)
+
+@app.route("/<gameid>/")
+def gamelogin(gameid):
+    return render_template('gamelogin.html',
+                            gameid=id)
+
+@app.route("/<gameid>/<userid>/")
+def userlogin(gameid, userid):
+    game_dict[gameid].append(userid)
     return render_template('index.html',
-                            name="Leia Organa",
-                            cards= cards.items())
-
-
-# Login
-
-"""
-Flow is as follows:
-
-api/login -> Github -> api/authorize -> /
-
-- Need to generate a state UUID in api/login
-- Send to Github
-- Github should send it back
-- Need to verify in api/authorize that the state in the URL matches the state
-generated in api/login
-"""
-
-# @app.route('/api/login', methods=['GET'])
-# def api_login():
-#     BASE_URL = 'https://github.com/login/oauth/authorize'
-#     state = str(uuid.uuid4())
-#     params = { 'client_id': GITHUB_CLIENT_ID
-#              , 'redirect_uri': 'https://blue-mongoose.herokuapp.com/api/authorize'
-#              , 'state': state
-#              }
-#     param_pairs = zip(params.keys(), params.values())
-#     url = build_url(BASE_URL, [k + '=' + v for (k, v) in param_pairs])
-#     return redirect(url)
-
-# @app.route('/api/authorize', methods=['GET'])
-# def authorize():
-#     state = request.args.get('state', '')
-#     code = request.args.get('code', '')
-#     print(state)
-#     print(code)
-#     return redirect('/')
-
+                           gameid=gameid,
+                           name=userid)
 
 # Dungeon
 

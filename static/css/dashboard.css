@@ -76,6 +76,8 @@ body {
 }
 @media (min-width: 768px) {
   .main {
+    height: 100%;
+    position: absolute;
     padding-right: 40px;
     padding-left: 40px;
     background-color: #002b36;

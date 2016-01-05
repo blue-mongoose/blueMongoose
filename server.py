@@ -82,7 +82,7 @@ def not_found_error(e):
 
 @app.route("/")
 def index():
-    return render_template('cover.html')
+    return render_template('index.html')
 
 game_dict = {}
 
@@ -103,7 +103,7 @@ def gamelogin(gameid):
 def userlogin(gameid, userid):
     try:
         game_dict[gameid].append(userid)
-        return render_template('index.html', gameid=gameid, name=userid)
+        return render_template('dashboard.html', gameid=gameid, name=userid)
     except KeyError:
         abort(400)
 

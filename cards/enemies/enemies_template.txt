@@ -1,12 +1,17 @@
-Name: 
-Description: 
-Image: img.jpeg
-Stats: {health: ?,
-        stamina: ?,
-        int: ?,
-        str: ?,
-        dex: ?}
-Abilities: {}
+Name:
+Description: |
 
-Items: []
-Equipment: []
+Image:
+Stats:
+    vit:
+    stm:
+    int:
+    str:
+    spd:
+
+Abilities:
+    ability1:
+        description:
+        damage:
+        cost:
+Items:

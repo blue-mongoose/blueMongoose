@@ -21,24 +21,18 @@ if APPLICATION_CONFIG == 'production':
     app.config['DATABASE_URI'] = os.environ['DATABASE_URL']
     GITHUB_CLIENT_ID = os.environ['GITHUB_CLIENT_ID']
     GITHUB_CLIENT_SECRET = os.environ['GITHUB_CLIENT_SECRET']
-elif APPLICATION_CONFIG == 'development':
-    BASE_URL = "http://localhost:5000/"
-    app.config['DEBUG'] = True
-    app.config['DATABASE_URI'] = os.environ['BLUE_MONGOOSE_DATABASE_URL']
-    GITHUB_CLIENT_ID = os.environ['BLUE_MONGOOSE_GITHUB_CLIENT_ID']
-    GITHUB_CLIENT_SECRET = os.environ['BLUE_MONGOOSE_GITHUB_CLIENT_SECRET']
-elif APPLICATION_CONFIG == 'testing':
-    BASE_URL = "http://localhost:5000/"
-    app.config['TESTING'] = True
-    app.config['DATABASE_URI'] = os.environ['BLUE_MONGOOSE_DATABASE_URL']
-    GITHUB_CLIENT_ID = os.environ['BLUE_MONGOOSE_GITHUB_CLIENT_ID']
-    GITHUB_CLIENT_SECRET = os.environ['BLUE_MONGOOSE_GITHUB_CLIENT_SECRET']
 else:
     BASE_URL = "http://localhost:5000/"
-    app.config['DEBUG'] = True
     app.config['DATABASE_URI'] = os.environ['BLUE_MONGOOSE_DATABASE_URL']
+
     GITHUB_CLIENT_ID = os.environ['BLUE_MONGOOSE_GITHUB_CLIENT_ID']
     GITHUB_CLIENT_SECRET = os.environ['BLUE_MONGOOSE_GITHUB_CLIENT_SECRET']
+
+    if APPLICATION_CONFIG == 'testing':
+        app.config['TESTING'] = True
+    else:
+        app.config['DEBUG'] = True
+
 
 db = SQLAlchemy(app)
 
@@ -76,6 +70,14 @@ def test():
     all_args = request.args.lists()
     return jsonify(all_args)
 
+
+# Error Handling
+
+@app.errorhandler(404)
+def not_found_error(e):
+    return render_template('404.html'), 404
+
+
 # Homepage
 
 @app.route("/")
@@ -95,15 +97,16 @@ def new_game():
 
 @app.route("/<gameid>/")
 def gamelogin(gameid):
-    return render_template('gamelogin.html',
-                            gameid=id)
+    return render_template('gamelogin.html', gameid=id)
 
 @app.route("/<gameid>/<userid>/")
 def userlogin(gameid, userid):
-    game_dict[gameid].append(userid)
-    return render_template('index.html',
-                           gameid=gameid,
-                           name=userid)
+    try:
+        game_dict[gameid].append(userid)
+        return render_template('index.html', gameid=gameid, name=userid)
+    except KeyError:
+        abort(400)
+
 
 # Dungeon
 
@@ -142,7 +145,9 @@ def api_players():
     # print(players.query.all())
     return jsonify({"players": str(players.query.all())})
 
+
 # Launch to Heroku
+
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=True)

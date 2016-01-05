@@ -10,8 +10,6 @@ from cards import cards
 
 # Initilization
 APPLICATION_CONFIG = os.environ.get('BLUE_MONGOOSE_SETTINGS')
-
-# BASE_URL = "http://localhost:5000/"
 BASE_URL = "https://blue-mongoose.herokuapp.com/"
 
 app = Flask(__name__)
@@ -19,20 +17,24 @@ app.config['DEBUG'] = False
 app.config['TESTING'] = False
 
 if APPLICATION_CONFIG == 'production':
+    print("Starting in production mode")
     app.config['DATABASE_URI'] = os.environ['DATABASE_URL']
     GITHUB_CLIENT_ID = os.environ['GITHUB_CLIENT_ID']
     GITHUB_CLIENT_SECRET = os.environ['GITHUB_CLIENT_SECRET']
 elif APPLICATION_CONFIG == 'development':
+    BASE_URL = "http://localhost:5000/"
     app.config['DEBUG'] = True
     app.config['DATABASE_URI'] = os.environ['BLUE_MONGOOSE_DATABASE_URL']
     GITHUB_CLIENT_ID = os.environ['BLUE_MONGOOSE_GITHUB_CLIENT_ID']
     GITHUB_CLIENT_SECRET = os.environ['BLUE_MONGOOSE_GITHUB_CLIENT_SECRET']
 elif APPLICATION_CONFIG == 'testing':
+    BASE_URL = "http://localhost:5000/"
     app.config['TESTING'] = True
     app.config['DATABASE_URI'] = os.environ['BLUE_MONGOOSE_DATABASE_URL']
     GITHUB_CLIENT_ID = os.environ['BLUE_MONGOOSE_GITHUB_CLIENT_ID']
     GITHUB_CLIENT_SECRET = os.environ['BLUE_MONGOOSE_GITHUB_CLIENT_SECRET']
 else:
+    BASE_URL = "http://localhost:5000/"
     app.config['DEBUG'] = True
     app.config['DATABASE_URI'] = os.environ['BLUE_MONGOOSE_DATABASE_URL']
     GITHUB_CLIENT_ID = os.environ['BLUE_MONGOOSE_GITHUB_CLIENT_ID']

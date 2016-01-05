@@ -36,19 +36,6 @@ else:
 
 db = SQLAlchemy(app)
 
-def intersperse(iterable, delimiter):
-    it = iter(iterable)
-    yield next(it)
-    for x in it:
-        yield delimiter
-        yield x
-
-def build_url(base_url, params):
-    url = base_url + '?' + ''.join(list(intersperse(params, '&')))
-    if ' ' in url:
-        return url.replace(' ', '+')
-    else:
-        return url
 
 ##########
 # Models #
@@ -83,6 +70,17 @@ def not_found_error(e):
 @app.route("/")
 def index():
     return render_template('index.html')
+
+@app.route("/help")
+def help():
+    # return render_template('index.html')
+    abort(404)
+
+@app.route("/settings")
+def settings():
+    # return render_template('index.html')
+    abort(404)
+
 
 game_dict = {}
 

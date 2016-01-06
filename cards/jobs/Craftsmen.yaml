@@ -1,0 +1,16 @@
+Name: Craftsmen
+Description:
+Boni:
+  - Vit: 3
+Passive:
+  - Basic Weapon Cost: -10%
+  - Basic Armor Cost: -10%
+Allowed Weapons:
+  - Hammer
+  - Ax
+  - Dagger
+Allowed Armor:
+  - Light
+  - Medium
+Level Gain:
+  - Vit: 2

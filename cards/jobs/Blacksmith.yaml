@@ -1,0 +1,23 @@
+Name: Blacksmith
+Description:
+Boni:
+  - Vit: 6
+  - Stm: 2
+  - Str: 2
+Passive:
+  - Basic Weapon Cost: -30%
+  - Advance Weapon Cost: -10%
+  - Basic Armor Cost: -30%
+  - Advance Armor Cost: -10%
+Allowed Weapons:
+  - Hammer
+  - Ax
+  - Dagger
+Allowed Armor:
+  - Light
+  - Medium
+  - Shield
+Level Gain:
+  - Vit: 3
+  - Stm: 1
+  - Str: 1

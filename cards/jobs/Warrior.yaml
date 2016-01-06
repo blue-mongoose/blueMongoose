@@ -1,0 +1,19 @@
+Name: Warrior
+Description:
+Boni:
+  - Vit: 5
+  - Str: 1
+Passive:
+Allowed Weapons:
+  - Sword
+  - Spear
+  - Axe
+  - Hammer
+  - Dagger
+Allowed Armor:
+  - Light Armor
+  - Medium Armor
+  - Shield
+Level Gain:
+  - Vit: 2
+  - Str: 1

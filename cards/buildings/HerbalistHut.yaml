@@ -1,0 +1,10 @@
+Name: Herbalist's Hut
+Description: A home for your local healer.
+Resources:
+  Wood: 5
+  Herb: 10
+Boni:
+Occupations:
+  - Herbalist
+Villager Actions:
+  - Create basic potions

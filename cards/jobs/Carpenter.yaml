@@ -1,0 +1,19 @@
+Name: Carpenter
+Description:
+Boni:
+  - Vit: 3
+  - Int: 2
+Passive:
+  - Basic Weapon Cost: -10%
+  - Basic Armor Cost: -10%
+  - Building Cost: -10%
+Allowed Weapons:
+  - Hammer
+  - Ax
+  - Dagger
+Allowed Armor:
+  - Light
+  - Medium
+Level Gain:
+  - Vit: 2
+  - Int: 1

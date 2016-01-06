@@ -1,0 +1,14 @@
+Name: Workshop
+Description: A building for creating basic weapons and armor.
+Resources:
+  Stone: 5
+  Wood: 5
+Boni:
+  Vit: 5
+  Str: 1
+Occupations:
+  - Warrior
+  - Craftsman
+Villager Actions:
+  - Create basic weapons
+  - Create basic armor

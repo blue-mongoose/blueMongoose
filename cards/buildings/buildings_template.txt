@@ -1,0 +1,6 @@
+Name:
+Description:
+Resources:
+Boni:
+Occupations:
+Villager Actions:

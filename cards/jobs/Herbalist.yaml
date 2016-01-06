@@ -1,0 +1,15 @@
+Name: Herbalist
+Description: The town's local potion brewer. They know how plants work.
+Boni:
+  - Stm : 1
+  - Int : 3
+Passive:
+  - All potion effects +15%
+Allowed Weapons:
+  - Dagger
+  - Staff
+  - Wand
+Allowed Armor:
+  - Light
+Level Gain:
+  - Int : 2

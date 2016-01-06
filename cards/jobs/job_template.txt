@@ -1,0 +1,7 @@
+Name:
+Description:
+Boni:
+Passive:
+Allowed Weapons:
+Allowed Armor:
+Level Gain:

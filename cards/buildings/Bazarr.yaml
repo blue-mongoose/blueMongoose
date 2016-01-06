@@ -1,0 +1,13 @@
+Name: Bazarr
+Description: Merchants from near and far gather here to exchange merchandise. 
+Resources:
+  Wood: 5
+  Gems: 10
+  Gold: 20
+  Marketplace: 
+Boni:
+  - Generates random resource
+Occupations:
+  - Merhchant(Trader)
+Villager Actions:
+  - Generate Gold

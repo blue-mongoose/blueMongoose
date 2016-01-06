@@ -1,0 +1,12 @@
+Name: Marketplace
+Description: Where citizens gather to trade.
+Resources:
+  Wood: 5
+  Villagers: 5
+Boni:
+  Vit: 5
+  Str: 1
+Occupations:
+  - Trader
+Villager Actions:
+  - Generate Gold

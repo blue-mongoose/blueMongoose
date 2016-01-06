@@ -1,0 +1,14 @@
+Name: Blacksmith
+Description: A blacksmith is necessary for creating strong equipment for the town.
+Resources:
+  Stone: 10
+  Workshop:
+Boni:
+  Vit: 10
+  Str: 2
+Occupations:
+  - Knight(Warrior)
+  - Blacksmith
+Villager Actions:
+  - Create advance weapons
+  - Create advance armor

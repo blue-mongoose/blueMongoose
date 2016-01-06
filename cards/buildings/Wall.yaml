@@ -1,0 +1,8 @@
+Name: Wall
+Description: Best for keeping things out.
+Resources:
+  Stone: 10
+Boni:
+  - Affects events
+Occupations:
+Villager Actions:

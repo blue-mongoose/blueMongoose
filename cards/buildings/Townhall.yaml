@@ -1,0 +1,13 @@
+Name: Townhall
+Description: The local government.
+Resources:
+  Wood: 5
+  Stone: 5
+  Villagers: 5
+Boni:
+  - Victory Points: 3
+  - Appeal Level: 3
+Occupations:
+  - Mayor
+Villager Actions:
+  - Generate Gold

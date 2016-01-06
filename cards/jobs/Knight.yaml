@@ -1,0 +1,23 @@
+Name: Knight
+Description: Protector of the weak.
+Boni:
+  - Vit: 8
+  - Stm: 5
+  - Str: 4
+Passive:
+  - Parry-15% chance to block an attack.
+Allowed Weapons:
+  - Sword
+  - Spear
+  - Axe
+  - Hammer
+  - Dagger
+Allowed Armor:
+  - Light Armor
+  - Medium Armor
+  - Heavy Armor
+  - Shield
+Level Gain:
+  - Vit: 4
+  - Stm: 2
+  - Str: 2

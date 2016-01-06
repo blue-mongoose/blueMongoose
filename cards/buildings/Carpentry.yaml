@@ -1,0 +1,14 @@
+Name: Workshop
+Description: While still allowing the creation of basic weapons and armor the Carpentry specializes in getting other structures up.
+Resources:
+  Wood: 5
+  Workshop: 
+Boni:
+  Vit: 5
+  Str: 1
+Occupations:
+  - Warrior
+  - Carpenter
+Villager Actions:
+  - Create basic weapons
+  - Create basic armor

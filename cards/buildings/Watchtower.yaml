@@ -1,0 +1,10 @@
+Name: Watchtower
+Description: Allows earlier detection of hostile movement.
+Resources:
+  Stone: 5
+  Wood: 5
+  Villager: 5
+Boni:
+  - Affects events
+Occupations:
+Villager Actions:
